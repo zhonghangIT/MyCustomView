@@ -2,6 +2,7 @@ package com.uniquedu.mycustomview.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,6 +11,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.EditText;
 
+import com.uniquedu.mycustomview.R;
 import com.uniquedu.mycustomview.utils.DpUtils;
 
 /**
@@ -18,31 +20,37 @@ import com.uniquedu.mycustomview.utils.DpUtils;
 public class MyEditText extends EditText {
     public MyEditText(Context context) {
         super(context);
-        init(context);
+        init(context, null);
     }
 
     public MyEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init(context, attrs);
     }
 
     public MyEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
+        init(context, attrs);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public MyEditText(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init(context);
+        init(context, attrs);
     }
 
-    private void init(Context context) {
+    private void init(Context context, AttributeSet attrs) {
+
         mPaint = new Paint();
         mPaint.setStrokeWidth(20);
         textSize = DpUtils.dip2px(context, 20);
         mPaint.setTextSize(textSize);
         mPaint.setColor(Color.RED);
+        if (attrs != null) {
+            TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.MyEditText);
+            int color = array.getColor(R.styleable.MyEditText_myColor, Color.RED);
+            mPaint.setColor(color);
+        }
         mPaint.setTextAlign(Paint.Align.LEFT);
     }
 
